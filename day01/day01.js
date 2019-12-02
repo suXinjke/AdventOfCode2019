@@ -1,33 +1,34 @@
 const fs = require( 'fs' )
 const path = require( 'path' )
 
-// const INPUT = [ 12, 14, 100756 ]
-const INPUT = fs
+const MASSES = fs
     .readFileSync( path.join( __dirname, 'day01_input.txt' ) )
     .toString()
-    .split( '\n' )
-    .filter( line => line.length > 0 )
+    .trim()
+    .split( /,?\s+/g )
     .map( line => Number( line ) )
 
+// 1969 -> 654
 function calculateFuel( mass = 0 ) {
     return Math.floor( mass / 3 ) - 2
 }
 
+// 1969 -> 966
 function calculateMegaFuel( mass = 0 ) {
-    let sum = 0
-    let massLeft = mass
-    while ( massLeft > 0 ) {
-        const result = calculateFuel( massLeft )
-        if ( result > 0 ) {
-            sum += result
-        }
-        massLeft = result
-    }
+    const fuelRequirement = calculateFuel( mass )
+    const needsMoreFuel = calculateFuel( fuelRequirement ) > 0
 
-    return sum
+    return needsMoreFuel ?
+        fuelRequirement + calculateMegaFuel( fuelRequirement ) :
+        fuelRequirement
 }
 
-const PART_1 = INPUT.reduce( ( fuel, mass ) => fuel + calculateFuel( mass ), 0 )
-const PART_2 = INPUT.map( fuel => calculateMegaFuel( fuel ) ).reduce( ( sum, fuel ) => sum + fuel, 0 )
-console.log( PART_1 )
-console.log( PART_2 )
+const PART_1_ANSWER = MASSES
+    .reduce( ( fuelSum, mass ) => fuelSum + calculateFuel( mass ), 0 )
+
+const PART_2_ANSWER = MASSES
+    .map( fuel => calculateMegaFuel( fuel ) )
+    .reduce( ( fuelSum, megaFuel ) => fuelSum + megaFuel, 0 )
+
+console.log( `Part 1 answer: ${PART_1_ANSWER}` )
+console.log( `Part 2 answer: ${PART_2_ANSWER}` )
