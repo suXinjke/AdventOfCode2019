@@ -86,11 +86,7 @@ function part2_bruteforce() {
     nounDifference * noun + verb = output
 
     nounDifference is calculated below, and
-    recommendedNoun is basically what may result in
-    closest value to the MAGIC_NUMBER of 19690720
-
-    After calculating all constants, bruteforcing verb is still
-    required, but it takes much less time.
+    thus allows to calculate the noun and verb.
 */
 function part2_foamyBrutefarce() {
     const result1 = executeProgram( INPUT, 0, 0 )
@@ -98,17 +94,10 @@ function part2_foamyBrutefarce() {
 
     const nounDifference = result2 - result1
 
-    const recommendedNoun = Math.floor( ( MAGIC_NUMBER - result1 ) / nounDifference )
+    const noun = Math.floor( ( MAGIC_NUMBER - result1 ) / nounDifference )
+    const verb = Math.floor( ( MAGIC_NUMBER - result1 ) % nounDifference )
 
-    for ( let verb = 0 ; verb <= 99 ; verb++ ) {
-        const result = executeProgram( INPUT, recommendedNoun, verb )
-
-        if ( result === MAGIC_NUMBER ) {
-            return 100 * recommendedNoun + verb
-        }
-    }
-
-    return 'Failure'
+    return 100 * noun + verb
 }
 
 console.log( 'Part 1 solution:', part1() )
