@@ -44,17 +44,16 @@ function executeInstruction( {
     const firstParam =  firstParamMode  === '0' ? memory[memory[ip+1]] : memory[ip+1]
     const secondParam = secondParamMode === '0' ? memory[memory[ip+2]] : memory[ip+2]
     const thirdParam =  thirdParamMode  === '0' ? memory[memory[ip+3]] : memory[ip+3]
-    const destinationAddress = memory[ip+3]
 
     switch ( opcode ) {
         case '01': // ADD
-            memory[destinationAddress] = firstParam + secondParam
+            memory[memory[ip+3]] = firstParam + secondParam
             return { memory, ip: ip + 4 }
         case '02': // MUL
-            memory[destinationAddress] = firstParam * secondParam
+            memory[memory[ip+3]] = firstParam * secondParam
             return { memory, ip: ip + 4 }
         case '03': // WRITE
-            memory[destinationAddress] = input
+            memory[memory[ip+1]] = input
             return { memory, ip: ip + 2 }
         case '04': // PRINT
             return { memory, ip: ip + 2, output: firstParam }
@@ -72,16 +71,16 @@ function executeInstruction( {
             }
         case '07': // LESS THAN
             if ( firstParam < secondParam ) {
-                memory[destinationAddress] = 1
+                memory[memory[ip+3]] = 1
             } else {
-                memory[destinationAddress] = 0
+                memory[memory[ip+3]] = 0
             }
             return { memory, ip: ip + 4 }
         case '08': // EQUALS
             if ( firstParam === secondParam ) {
-                memory[destinationAddress] = 1
+                memory[memory[ip+3]] = 1
             } else {
-                memory[destinationAddress] = 0
+                memory[memory[ip+3]] = 0
             }
             return { memory, ip: ip + 4 }
         case '99': // HALT
