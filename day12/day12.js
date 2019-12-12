@@ -144,26 +144,26 @@ function part2( moons ) {
     }
 }
 
-function isRepeatingSequence( shit = [], minSequenceRepeats ) {
-    if ( shit.length < minSequenceRepeats ) {
+function isRepeatingSequence( input = [], minSequenceRepeats ) {
+    if ( input.length < minSequenceRepeats ) {
         return false
     }
 
-    if ( shit.length % minSequenceRepeats !== 0 ) {
+    if ( input.length % minSequenceRepeats !== 0 ) {
         return false
     }
 
-    const sliceSize = shit.length / minSequenceRepeats
+    const sliceSize = input.length / minSequenceRepeats
 
     for ( let bigOffset = 0 ; bigOffset < sliceSize ; bigOffset++ ) {
         let elem
         for ( let smallOffset = 0 ; smallOffset < sliceSize * minSequenceRepeats ; smallOffset += sliceSize ) {
             const offset = smallOffset + bigOffset
-            if ( elem !== undefined && shit[offset] !== elem ) {
+            if ( elem !== undefined && input[offset] !== elem ) {
                 return false
             }
 
-            elem = shit[offset]
+            elem = input[offset]
         }
     }
 
